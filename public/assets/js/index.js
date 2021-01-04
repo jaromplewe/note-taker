@@ -104,7 +104,7 @@ const handleRenderSaveBtn = function () {
 // Render's the list of note titles
 const renderNoteList = (notes) => {
   $noteList.empty();
-
+  console.log("NOTES: ", notes)
   const noteListItems = [];
 
   // Returns jquery object for li with given text and delete button
@@ -132,12 +132,15 @@ const renderNoteList = (notes) => {
     noteListItems.push($li);
   });
 
+  console.log("Note List: ", noteListItems)
   $noteList.append(noteListItems);
 };
 
 // Gets notes from the db and renders them to the sidebar
 const getAndRenderNotes = () => {
-  return getNotes().then(renderNoteList);
+  return getNotes().then(function(data) {
+    renderNoteList(data);
+  });
 };
 
 $saveNoteBtn.on("click", handleNoteSave);
