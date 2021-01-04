@@ -1,20 +1,17 @@
-var express = require("express");
-var path = require("path");
+const express = require("express");
+const path = require("path");
+const fs = require("fs");
 
-var app = express();
-var PORT = process.env.PORT || 8080;
+const app = express();
+const PORT = process.env.PORT || 8080;
+const mainDir = path.join(__dirname, "/public");
 
+app.use(express.static(mainDir))
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-
-app.get('/notes', function(req, res) {
-    res.sendFile(path.join(__dirname, "public/notes.html"));
-})
-app.get('*', function(req, res) {
-    res.sendFile(path.join(__dirname, "public/index.html"));
-})
-
+require('./routes/htmlRoutes')(app);
+require('./routes/apiRoutes')(app);
 
 app.listen(PORT, () => {
     console.log('listening on port' + PORT);
